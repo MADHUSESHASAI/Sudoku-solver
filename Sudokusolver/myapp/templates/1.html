@@ -13,7 +13,7 @@
            
 
         }
-        input
+        input[type='text']
         {
             width: 20px;
         }
@@ -26,12 +26,16 @@
 </head>
 <body>
     <div id="container">
-        <div class="box">
-            {% for i in list %}
-            <input type="text" value='{{ forloop.counter}}'>
-            {% endfor%}
-             
-        </div>
+        <form method="post">
+            {% csrf_token %}
+            <div class="box">
+                {% for i in list %}
+                <input type="text" value="" name='{{ forloop.counter}}'>
+                {% endfor%}
+            </div>
+            <input type="submit">
+        </form>
+        
     </div>
     
     

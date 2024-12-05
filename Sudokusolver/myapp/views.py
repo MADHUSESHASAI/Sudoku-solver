@@ -12,5 +12,13 @@ def temp1(request):#madhu
     '?','?','?','?','?','?','?','?','?',
     '?','?','?','?','?','?','?','?','?',
     '?','?','?','?','?','?','?','?','?',]
+    if request.method=='POST':
+        data=request.POST
+        
+        for i in range(1,82):
+            values[i-1]=data[str(i)]
+        print(values)
+       
+
 
     return render(request,'1.html',context={'list':values} )
