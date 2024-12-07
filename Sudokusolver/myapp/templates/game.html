@@ -30,12 +30,17 @@
             {% csrf_token %}
             <div class="box">
                 {% for i in list %}
-                <input type="text" value="" name='{{ forloop.counter}}'>
-                {% endfor%}
+                <input 
+                    type="text" 
+                    name="{{ forloop.counter }}" 
+                    pattern="\d*" 
+                    maxlength="1" 
+                    oninput="this.value = this.value.replace(/[^0-9]/g, '');"
+                    required>
+                {% endfor %}
             </div>
             <input type="submit">
         </form>
-        
     </div>
     
     
