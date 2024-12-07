@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from collections import defaultdict
 
 # Create your views here.
 
@@ -49,7 +50,27 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-def game(request):#madhu
+
+#madhu 
+def isValidSudoku(board):
+        row=defaultdict(set)
+        col=defaultdict(set)
+        grid=defaultdict(set)
+        for i in range(9):
+            for j in range(9):
+                if board[i][j]=='':
+                    continue
+                if  board[i][j]  in col[j] or  board[i][j] in row[i] or board[i][j] in grid[(i//3,j//3)]:
+                    return False
+                else:
+                    col[j].add(board[i][j])
+                    row[i].add(board[i][j])
+                    grid[(i//3,j//3)].add(board[i][j])
+        return True
+
+
+
+def game(request):
     values=['?','?','?','?','?','?','?','?','?',
     '?','?','?','?','?','?','?','?','?',
     '?','?','?','?','?','?','?','?','?',
@@ -64,6 +85,11 @@ def game(request):#madhu
         
         for i in range(1,82):
             values[i-1]=data[str(i)]
-        print(values)
-       
+        board=[]
+        for i in range(0, len(values), 9):
+            x = i
+            board.append(values[x:x+9])
+        print(isValidSudoku(board))
+        
+    
     return render(request,'game.html',context={'list':values} )
