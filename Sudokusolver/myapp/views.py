@@ -17,7 +17,7 @@ def loginpage(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('/')
+                return redirect('/game')
             else:
                 messages.error(request, 'Invalid Username or Password')
         else:
@@ -49,7 +49,7 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
 
-def temp1(request):#madhu
+def game(request):#madhu
     values=['?','?','?','?','?','?','?','?','?',
     '?','?','?','?','?','?','?','?','?',
     '?','?','?','?','?','?','?','?','?',
@@ -66,4 +66,4 @@ def temp1(request):#madhu
             values[i-1]=data[str(i)]
         print(values)
        
-    return render(request,'1.html',context={'list':values} )
+    return render(request,'game.html',context={'list':values} )
