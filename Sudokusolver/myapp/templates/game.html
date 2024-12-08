@@ -10,8 +10,6 @@
             display: grid;
             grid-template-columns: repeat(9,1fr);
             gap: 5px;
-           
-
         }
         input[type='text']
         {
@@ -45,6 +43,13 @@
             <input type="submit">
         </form>
     </div>
+    <a href="/history">do yoy want to see the history</a>
+
+    {% if message %}
+    <div>
+        <p>{message}</p>
+    </div>
+    {% endif %}
     
     
 </body>

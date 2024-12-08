@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Saved Matrices</title>
+    <style>
+        .filename {
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        .box
+        {
+            display: grid;
+            grid-template-columns: repeat(14,9fr);
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Saved Matrices for {{ request.user.username }}</h1>
+    
+    {% if user_matrices %}
+        <div class="matrix-list">
+            {% for matrix in user_matrices %}
+                    <div class="filename">{{ matrix.filename }}</div>
+                        
+                        <div class="box">
+                            {% for row in matrix.matrix %}
+                                {% for cell in row %}
+                                    {{ cell }}
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                        
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No matrices saved yet.</p>
+    {% endif %}
+</body>
+</html>

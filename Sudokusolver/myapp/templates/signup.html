@@ -9,11 +9,21 @@
     <form method="POST">
         {% csrf_token %}
         {% for field in form %}
-            {{ field.label_tag }}<br>
-            {{ field }}<br>
+                {{ field.label_tag }}<br><br>
+                {{ field }}<br><br>
+                <!-- Field-specific error messages -->
+                {% if field.errors %}
+                    <div style="color: red;">
+                        {% for error in field.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
         {% endfor %}
         <button type="submit">Sign Up</button><br>
     </form>
     <a href="/loginpage">Already have an account? Login here</a>
+    
 </body>
 </html>
