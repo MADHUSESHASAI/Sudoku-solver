@@ -52,6 +52,36 @@ def signup(request):
 
 
 #madhu 
+def solveSudoku(board):
+   
+    def isvalid(row,col,num):
+        for i in range(9):
+            if board[i][col]==num or board[row][i]==num:
+                return False
+        r=(row//3)*3
+        c=(col//3)*3
+
+        for i in range(r,r+3):
+            for j in range(c,c+3):
+                if board[i][j]==num:
+                    return False
+        return True
+
+    for row in range(9):
+        for col in range(9):
+            if board[row][col] == '':
+                for num in '123456789':       
+                    if isvalid(row, col, num):
+                        board[row][col] = num            
+                        if solveSudoku(board):
+                            return True              
+                        board[row][col] = ''
+                return False
+    return True
+
+
+
+        
 def isValidSudoku(board):
         row=defaultdict(set)
         col=defaultdict(set)
@@ -89,7 +119,14 @@ def game(request):
         for i in range(0, len(values), 9):
             x = i
             board.append(values[x:x+9])
-        print(isValidSudoku(board))
+        if isValidSudoku(board):
+            solveSudoku(board)
+            print(board)
+            resultB=[]
+            for sublist in board:
+                resultB.extend(sublist)
+            return render(request,'result.html',context={'list':resultB,'result':True})
+        else:
+            return render(request,'result.html',context={'result':False})
         
-    
     return render(request,'game.html',context={'list':values} )

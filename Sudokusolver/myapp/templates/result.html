@@ -13,37 +13,36 @@
            
 
         }
-        input[type='text']
+        #boxes
         {
             width: 20px;
         }
         #container
         {
+            width:100px;
             position: absolute;
             top:35%;
             left: 35%;
-            width:100px;
         }
 
     </style>
 </head>
 <body>
     <div id="container">
-        <form method="post">
-            {% csrf_token %}
-            <div class="box">
-                {% for i in list %}
-                <input 
-                    type="text" 
-                    name="{{ forloop.counter }}" 
-                    pattern="\d*" 
-                    maxlength="1" 
-                    oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                    >
-                {% endfor %}
+        {% if result%}
+        <div class="box">
+            {% for i in list %}
+            <div id="boxes">
+                {{i}}
             </div>
-            <input type="submit">
-        </form>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>Please enter a Valid Sukoku</p>
+
+        {% endif %}
+       
+            
     </div>
     
     
