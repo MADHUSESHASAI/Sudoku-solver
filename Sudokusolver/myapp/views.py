@@ -9,6 +9,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 import pickle
 import os
+from .models import SudokuMatrix
 
 # Create your views here.
 
@@ -131,7 +132,7 @@ def game(request):
             resultB=[]
             for sublist in board:
                 resultB.extend(sublist)
-            save_matrix_to_file(request.user, resultB)
+            save_matrix_to_db(request.user, resultB)
             return render(request,'result.html',context={'list':resultB,'result':True})
         else:
             return render(request,'result.html',context={'result':False})
@@ -140,53 +141,40 @@ def game(request):
 
 #Rajesh
 
-#1. for saving the matrix
-def save_matrix_to_file(user, matrix_data):
-    matrix_dir = 'C:\\Users\\ACER\\Desktop\\project\\Sudoku-solver\\Sudokusolver\\matrices\\'
-    if not os.path.exists(matrix_dir):
-        os.makedirs(matrix_dir)
-    i = 1
-    while os.path.exists(os.path.join(matrix_dir, f'{user.username}_matrix_{i}.pkl')):
-        i += 1
-    file_path = os.path.join(matrix_dir, f'{user.username}_matrix_{i}.pkl')
-    with open(file_path, 'wb') as f:
-        pickle.dump(matrix_data, f)
-    print(f"Successfully saved as {file_path}")
-    load_matrix_from_file(user)
 
-
-#2. load the single matrix
-def load_matrix_from_file(user):
-    file_name = f"{user.username}_matrix.pkl"
-    file_path = os.path.join("matrices", file_name)
-    if not default_storage.exists(file_path):
-        return JsonResponse({"error": "Matrix not found."}, status=404)
-    with default_storage.open(file_path, 'rb') as f:
-        matrix = pickle.load(f)
-    print(matrix)
-    return JsonResponse({"matrix": matrix})
 
 #3. history page
 def history(request):
     user_matrices = get_matrices_for_user(request.user)
-    print(user_matrices) 
     return render(request, 'history.html', {'user_matrices': user_matrices})
 
-#4. to get multiple matrices
+
+def save_matrix_to_db(user, matrix_data):
+    # Serialize the matrix and save it to the database
+    sudoku_matrix = SudokuMatrix(user=user)
+    sudoku_matrix.set_matrix(matrix_data)
+    sudoku_matrix.save()
+    print(f"Successfully saved matrix for user: {user.username}")
+
+
+def load_matrix_from_db(user, matrix_id):
+    try:
+        sudoku_matrix = SudokuMatrix.objects.get(id=matrix_id, user=user)
+        matrix = sudoku_matrix.get_matrix()
+        print(f"Loaded matrix for user: {user.username}")
+        return JsonResponse({"matrix": matrix})
+    except SudokuMatrix.DoesNotExist:
+        return JsonResponse({"error": "Matrix not found."}, status=404)
+    
+
 def get_matrices_for_user(user):
-    BASE_DIR = 'C:\\Users\\ACER\\Desktop\\project\\Sudoku-solver\\Sudokusolver\\matrices\\'
-    user_matrices = []
-    all_files = os.listdir(BASE_DIR)
-    print(f"All files in directory: {all_files}")
-    for filename in all_files:
-        if filename.startswith(user.username):
-            file_path = os.path.join(BASE_DIR, filename)
-            with open(file_path, 'rb') as f:
-                matrix = pickle.load(f)  
-                print(f"Loaded matrix from {filename}: {matrix}")
-                user_matrices.append({
-                    'filename': filename,
-                    'matrix': matrix
-                })
-    print(f"User matrices found: {user_matrices}")  
+    matrices = SudokuMatrix.objects.filter(user=user).order_by('-created_at')
+    user_matrices = [
+        {
+            'id': matrix.id,
+            'matrix': matrix.get_matrix(),
+            'created_at': matrix.created_at
+        }
+        for matrix in matrices
+    ]
     return user_matrices
