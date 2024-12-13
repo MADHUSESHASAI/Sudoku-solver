@@ -15,11 +15,30 @@
             text-decoration: none;
             transition: all 0.3s;
         }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
     </style>
 </head>
-<body>
-    <h1>welcome to home page</h1>
-    <a href="/loginpage" class="btn-secondary">Login</a>
-    <a href="/signup" class="btn-secondary">Signup</a>
+<body style="background-image: url('https://img.goodfon.com/wallpaper/nbig/5/cf/poro-league-of-legends-poro.webp');">
+    <header>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#about">About</a>
+            <a href="#services">Services</a>
+            <a href="#contact">Contact</a>
+        </nav>
+        <div class="nav-buttons">
+            <a href="/loginpage">Login</a>
+            <a href="/signup">Sign Up</a>
+        </div>
+    </header>
 </body>
 </html>
