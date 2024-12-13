@@ -15,11 +15,25 @@
             text-decoration: none;
             transition: all 0.3s;
         }
+        #align
+        {
+            text-align: center;
+        }
+        #home-container
+        {
+            position: absolute;
+            top: 35%;
+            right: 5%;
+        }
     </style>
 </head>
 <body>
-    <h1>welcome to home page</h1>
-    <a href="/loginpage" class="btn-secondary">Login</a>
-    <a href="/signup" class="btn-secondary">Signup</a>
+    <div id="home-container">
+        <h1>Welcome lets solve some Sukoku!</h1>
+        <div id="align">
+            <a href="/loginpage" class="btn-secondary">Login</a>
+            <a href="/signup" class="btn-secondary">Signup</a>
+        </div>
+    </div>
 </body>
 </html>

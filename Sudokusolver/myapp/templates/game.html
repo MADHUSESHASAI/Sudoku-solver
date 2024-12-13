@@ -13,7 +13,8 @@
         }
         input[type='text']
         {
-            width: 20px;
+            width: 30px;
+            height: 30px;
         }
         #container
         {
@@ -21,6 +22,15 @@
             top:35%;
             left: 35%;
             width:100px;
+            text-align: center;
+            width:fit-content;
+        }
+        input[type='submit']
+        {
+           border-radius: 5px;
+           height: 30px;
+           width: 90px;
+
         }
 
     </style>
@@ -39,9 +49,11 @@
                     oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                     >
                 {% endfor %}
-            </div>
-            <input type="submit">
+            </div><br>
+                <input type="submit">
+            
         </form>
+        
     </div>
     <a href="/history">do yoy want to see the history</a>
 
