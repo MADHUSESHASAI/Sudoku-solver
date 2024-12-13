@@ -4,18 +4,38 @@
     <meta charset="UTF-8">
     <title>Saved Matrices</title>
     <style>
-        .filename {
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
         .box
         {
             display: grid;
             grid-template-columns: repeat(10,2fr);
             gap: 5px;
         }
+       
+        .box
+        {
+            display: grid;
+            grid-template-columns: repeat(9,2fr);
+            gap: 5px;
+        }
+        #boxes
+        {
+            width: 20px;
+            
+        }
+        #history-container
+        {
+            margin: 5px;
+            gap: 20px;
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: center;
+
+        }
+        
     </style>
 </head>
+<<<<<<< HEAD
 <body style="background-color: #76b0c6;">
     <h1>Saved Matrices for {{ request.user.username }}</h1>
     
@@ -26,16 +46,34 @@
                         
                         <div class="box">
                             {% for row in matrix.matrix %}
+=======
+<body>
+    <h1>Hay! {{ request.user.username }}</h1>
+    <h2>here are the Sudokus that you previously solved here!!</h2>
+    <div id="history-container">
+        {% if user_matrices %}
+        {% for matrix in user_matrices %}
+                <div id="container">
+                    <div class="box">    
+                        {% for row in matrix.matrix %}
+>>>>>>> 2c06efc4aefae25928ce44fb5ea869e848976c2d
                                 {% for cell in row %}
+                                <div id="boxes">
                                     {{ cell }}
+                                </div>
                                 {% endfor %}
-                            {% endfor %}
-                        </div>
-                        
-            {% endfor %}
-        </div>
-    {% else %}
-        <p>No matrices saved yet.</p>
-    {% endif %}
+                            {% endfor %}            
+                    </div>
+                </div>
+        {% endfor %}
+        {% else %}
+            <p>No matrices saved yet.</p>
+        {% endif %}
+    </div>
+
+
+
+   
 </body>
 </html>
+ 
