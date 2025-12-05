@@ -67,5 +67,5 @@ You can also place sample numbers inside if needed.
 
 ---
 
-## 📁 Project Structure
+
 
